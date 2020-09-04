@@ -13,7 +13,7 @@ namespace BibliotecaOnlineAPI.Mapper
         public LibrosMapper()
         {
             CreateMap<Libros, LibrosDTO>().ReverseMap();
-            CreateMap<Usuarios, UsuariosDTO>().ReverseMap();
+          
         }
     }
 }

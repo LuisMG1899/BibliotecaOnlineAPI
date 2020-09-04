@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BibliotecaOnlineAPI.Infraestructure;
 using BibliotecaOnlineAPI.Repository;
 using BibliotecaOnlineAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BibliotecaOnlineAPI
 {
@@ -31,9 +34,23 @@ namespace BibliotecaOnlineAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ILibrosRepository, LibrosRepository>();
+            services.AddScoped<IUsuariosRepository, UsuariosRepository>();
             services.AddDbContext<BibliotecaDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddAutoMapper(typeof(BibliotecaOnlineAPI.Mapper.LibrosMapper));
+            services.AddAutoMapper(typeof(BibliotecaOnlineAPI.Mapper.UsuariosMapper));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:TokenKey").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+
+                };
+            }
+            );
             services.AddControllers();
         }
 
@@ -49,6 +66,7 @@ namespace BibliotecaOnlineAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -31,10 +31,10 @@ namespace BibliotecaOnlineAPI.Repository
             return true;
         }
 
-        public bool ExisteUsuario(string Nombre)
+        public bool ExisteUsuario(string Correo)
         {
-           var datoUsuario = _dbBib.Usuarios.Where(x => x.Nombres == Nombre).FirstOrDefault();
-            if (datoUsuario == null)
+           var datoUsuario = _dbBib.Usuarios.Any(x => x.Correo == Correo);
+            if (datoUsuario == false)
             {
                 return false;
             }
@@ -70,6 +70,31 @@ namespace BibliotecaOnlineAPI.Repository
             var datoUsuario = _dbBib.Usuarios.FirstOrDefault(x => x.IdUsuario == Id);
             return datoUsuario;
 
+        }
+
+        public Usuarios Login(string correo, string Password)
+        {
+            var usuarioCredencial = _dbBib.Usuarios.Where(x => x.Correo == correo).FirstOrDefault();
+            if (usuarioCredencial == null) {
+                return null;
+            }
+            if (!Criptography.ValidacionPassword(Password, usuarioCredencial.HashPassword, usuarioCredencial.SaltPass))
+            {
+                return null;
+            }
+            return usuarioCredencial;
+        }
+
+        public int Registrar(Usuarios usuario, string Password)
+        {
+        
+            byte[] HassPassword, SaltPassword;
+            Criptography.CrearPasswordEncriptado(Password, out HassPassword, out SaltPassword);
+            usuario.HashPassword = HassPassword;
+            usuario.SaltPass = SaltPassword;
+            _dbBib.Usuarios.Add(usuario);
+            _dbBib.SaveChanges();
+            return usuario.IdUsuario;
         }
 
         public Usuarios UpdateUsuario(Usuarios DatosUsuario)

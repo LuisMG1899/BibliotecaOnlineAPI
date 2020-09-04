@@ -11,16 +11,16 @@ namespace BibliotecaOnlineAPI.Model
     public class Usuarios
     {
         
-        public int IdUsuario { get; set; }
-        
-      
+        public int IdUsuario { get; set; } 
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public string Correo { get; set; }
         //public Direcciones Direccion { get; set; }
         public DateTime FechaCreacion { get; set; }
-
         public ICollection<Libros> LibrosUsuario { get; set; }
+        public byte[] HashPassword { get; set; } 
+        public byte[] SaltPass { get; set; }   
+
     }
 
 }

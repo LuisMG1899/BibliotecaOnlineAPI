@@ -10,11 +10,15 @@ namespace BibliotecaOnlineAPI.Repository.IRepository
     {
         ICollection<Usuarios> GetUsuario();
         Usuarios GetUsuarios(int Id);
-        bool ExisteUsuario(string Nombre);
+        bool ExisteUsuario(string Correo);
         bool ExisteUsuario(int id);
         int CreateUsuario(Usuarios DatosUsuario);
         bool DeleteUsuario(int id);
 
         Usuarios UpdateUsuario(Usuarios DatosUsuario);
+
+
+        Usuarios Login(string correo, string Password);
+        int Registrar(Usuarios usuario, string Password);
     }
 }

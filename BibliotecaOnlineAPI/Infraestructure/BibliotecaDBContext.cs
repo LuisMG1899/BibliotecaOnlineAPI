@@ -35,6 +35,7 @@ namespace BibliotecaOnlineAPI.Infraestructure
 
             modelBuilder.Entity<Usuarios>().ToTable("Usuarios");
             modelBuilder.Entity<Usuarios>().HasKey(x => x.IdUsuario);
+            
         }
 
 
