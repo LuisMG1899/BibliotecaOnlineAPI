@@ -13,6 +13,8 @@ namespace BibliotecaOnlineAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    //[ApiExplorerSettings(GroupName = "APIBibliotecaLibros") ]
     public class LibrosController : ControllerBase
     {
         private readonly ILibrosRepository _LibroRepo;

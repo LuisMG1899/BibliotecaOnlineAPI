@@ -20,6 +20,7 @@ namespace BibliotecaOnlineAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[ApiExplorerSettings(GroupName = "APIBibliotecaUsuarios")]
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuariosRepository _UsuariosRepo;
@@ -44,6 +45,11 @@ namespace BibliotecaOnlineAPI.Controllers
             return Ok(LstUsuarioDTO);
         }
 
+        /// <summary>
+        /// jejejejej
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{Id:int}", Name = "GetUsuario")]
         public IActionResult GetUsuarios(int Id)

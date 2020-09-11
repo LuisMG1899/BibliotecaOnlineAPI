@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -51,6 +53,34 @@ namespace BibliotecaOnlineAPI
                 };
             }
             );
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc("BibliotecaOnlineAPI", new Microsoft.OpenApi.Models.OpenApiInfo()
+                { 
+                Title ="Biblioteca Online API", 
+                Description = "Contiene los catalogos genericos de aplicaciones",
+                Version = "1.0",
+                Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                { 
+                Email ="soluciones@axsistec.com",
+                Name = "Soporte tecnico de desarrollos",
+                Url = new Uri("https://axsistecnologia.com"),
+
+                },
+
+                License = new Microsoft.OpenApi.Models.OpenApiLicense
+                { 
+                    Name = "BSD",
+                    Url = new Uri("https://bsd.axsistec.com"),
+                },
+                
+                }
+                
+                    );
+
+                var XMLComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var APIRutaComentarios =Path.Combine(AppContext.BaseDirectory, XMLComentarios);
+                options.IncludeXmlComments(APIRutaComentarios);
+            });
             services.AddControllers();
         }
 
@@ -63,6 +93,14 @@ namespace BibliotecaOnlineAPI
             }
 
             app.UseHttpsRedirection();
+            
+            app.UseSwagger( );
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/BibliotecaOnlineAPI/swagger.json", "API Libro Biblioteca");
+                //options.SwaggerEndpoint("/swagger/APIBibliotecaUsuarios/swagger.json", "API Usuario Biblioteca");
+                options.RoutePrefix = "";
+            });
 
             app.UseRouting();
 

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BibliotecaOnlineAPI</name>
+    </assembly>
+    <members>
+        <member name="M:BibliotecaOnlineAPI.Controllers.UsuariosController.GetUsuarios(System.Int32)">
+            <summary>
+            jejejejej
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
