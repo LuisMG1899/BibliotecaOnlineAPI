@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace BibliotecaOnlineAPI
 {
@@ -54,7 +55,7 @@ namespace BibliotecaOnlineAPI
             }
             );
             services.AddSwaggerGen(options => {
-                options.SwaggerDoc("BibliotecaOnlineAPI", new Microsoft.OpenApi.Models.OpenApiInfo()
+                options.SwaggerDoc("APIBibliotecaLibros", new Microsoft.OpenApi.Models.OpenApiInfo()
                 { 
                 Title ="Biblioteca Online API", 
                 Description = "Contiene los catalogos genericos de aplicaciones",
@@ -77,9 +78,56 @@ namespace BibliotecaOnlineAPI
                 
                     );
 
+                options.SwaggerDoc("APIBibliotecaUsuarios", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Biblioteca Online API",
+                    Description = "Contiene los catalogos genericos de aplicaciones",
+                    Version = "1.0",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                    {
+                        Email = "soluciones@axsistec.com",
+                        Name = "Soporte tecnico de desarrollos",
+                        Url = new Uri("https://axsistecnologia.com"),
+
+                    },
+
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense
+                    {
+                        Name = "BSD",
+                        Url = new Uri("https://bsd.axsistec.com"),
+                    },
+
+                }
+
+                    );
+
+
                 var XMLComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var APIRutaComentarios =Path.Combine(AppContext.BaseDirectory, XMLComentarios);
                 options.IncludeXmlComments(APIRutaComentarios);
+
+                options.AddSecurityDefinition("Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authentication",
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer"
+                    }
+                    );
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement { 
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    } , new List<string>()
+                }
+                });
+
+
             });
             services.AddControllers();
         }
@@ -97,8 +145,8 @@ namespace BibliotecaOnlineAPI
             app.UseSwagger( );
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/BibliotecaOnlineAPI/swagger.json", "API Libro Biblioteca");
-                //options.SwaggerEndpoint("/swagger/APIBibliotecaUsuarios/swagger.json", "API Usuario Biblioteca");
+                options.SwaggerEndpoint("/swagger/APIBibliotecaLibros/swagger.json", "API Libro Biblioteca");
+                options.SwaggerEndpoint("/swagger/APIBibliotecaUsuarios/swagger.json", "API Usuario Biblioteca");
                 options.RoutePrefix = "";
             });
 
@@ -111,6 +159,8 @@ namespace BibliotecaOnlineAPI
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         }
     }
 }

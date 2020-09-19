@@ -6,6 +6,7 @@ using AutoMapper;
 using BibliotecaOnlineAPI.DTO;
 using BibliotecaOnlineAPI.Model;
 using BibliotecaOnlineAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ namespace BibliotecaOnlineAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    //[ApiExplorerSettings(GroupName = "APIBibliotecaLibros") ]
+    [ApiExplorerSettings(GroupName = "APIBibliotecaLibros")]
     public class LibrosController : ControllerBase
     {
         private readonly ILibrosRepository _LibroRepo;
@@ -25,7 +26,7 @@ namespace BibliotecaOnlineAPI.Controllers
             _Mapper = Mapper;
         }
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult GetLibros()
         {

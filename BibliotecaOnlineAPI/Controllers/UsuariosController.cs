@@ -20,7 +20,7 @@ namespace BibliotecaOnlineAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[ApiExplorerSettings(GroupName = "APIBibliotecaUsuarios")]
+    [ApiExplorerSettings(GroupName = "APIBibliotecaUsuarios")]
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuariosRepository _UsuariosRepo;
@@ -34,6 +34,8 @@ namespace BibliotecaOnlineAPI.Controllers
         }
         [Authorize]
         [HttpGet]
+        [ProducesResponseType(200, Type= typeof(List<UsuariosDTO>))]
+        [ProducesResponseType(400, Type = typeof(List<UsuariosDTO>))]
         public IActionResult GetUsuarios()
         {
             var Lst = _UsuariosRepo.GetUsuario();
@@ -126,6 +128,10 @@ namespace BibliotecaOnlineAPI.Controllers
         }
 
         [HttpPost("Registrar")]
+        [ProducesResponseType(201, Type = typeof(int)) ]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult Registrar(UsuarioAuthDTO DatosRegistro)
         {
             if (_UsuariosRepo.ExisteUsuario(DatosRegistro.Correo.ToLower())) {

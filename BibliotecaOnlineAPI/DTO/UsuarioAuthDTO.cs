@@ -10,10 +10,10 @@ namespace BibliotecaOnlineAPI.DTO
     {
         [Key]
         public int IdUsuario { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El nombre de usuario correo es necesario")]
         public string Correo { get; set; }
-        [Required]
-        [StringLength (16, MinimumLength = 6)]
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [StringLength (16, MinimumLength = 6, ErrorMessage = "La contraseña debe ser entre 6 y 12 caracteres")]
         public string Password { get; set; }
     }
 }
