@@ -11,11 +11,15 @@ namespace BibliotecaOnlineAPI.Infraestructure
     {
         public BibliotecaDBContext(DbContextOptions<BibliotecaDBContext> options) : base(options)
         {
-
+           
         }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=DESKTOP-JI0ALMN;Database=BibliotecaDB;integrated security=True;");
+        }
         public DbSet<Libros> Libros { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -4,6 +4,12 @@
         <name>BibliotecaOnlineAPI</name>
     </assembly>
     <members>
+        <member name="M:BibliotecaOnlineAPI.Controllers.LibrosController.GetLibros">
+            <summary>
+            Obtener libros
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BibliotecaOnlineAPI.Controllers.UsuariosController.GetUsuarios(System.Int32)">
             <summary>
             jejejejej

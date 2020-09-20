@@ -26,6 +26,10 @@ namespace BibliotecaOnlineAPI.Controllers
             _Mapper = Mapper;
         }
 
+        /// <summary>
+        /// Obtener libros
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public IActionResult GetLibros()

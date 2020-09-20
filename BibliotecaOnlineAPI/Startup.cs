@@ -103,7 +103,7 @@ namespace BibliotecaOnlineAPI
 
 
                 var XMLComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var APIRutaComentarios =Path.Combine(AppContext.BaseDirectory, XMLComentarios);
+                var APIRutaComentarios = Path.Combine(AppContext.BaseDirectory, XMLComentarios);
                 options.IncludeXmlComments(APIRutaComentarios);
 
                 options.AddSecurityDefinition("Bearer",
@@ -145,11 +145,13 @@ namespace BibliotecaOnlineAPI
             app.UseSwagger( );
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/APIBibliotecaLibros/swagger.json", "API Libro Biblioteca");
-                options.SwaggerEndpoint("/swagger/APIBibliotecaUsuarios/swagger.json", "API Usuario Biblioteca");
                 options.RoutePrefix = "";
+                options.SwaggerEndpoint("swagger/APIBibliotecaLibros/swagger.json", "API Libro Biblioteca");
+                options.SwaggerEndpoint("swagger/APIBibliotecaUsuarios/swagger.json", "API Usuario Biblioteca");
+               
             });
-
+        
+            
             app.UseRouting();
 
             app.UseAuthentication();
